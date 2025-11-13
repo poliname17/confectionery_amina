@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Кондитерская Амины Кадировой</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fae9e9;
+      display: flex;
+      min-height: 100vh;
+      flex-wrap: wrap;
+      color: #685454;
+    }
+
+    /* Левая часть — информация о кондитере */
+    aside {
+      width: 30%;
+      background: #fae9e9;
+      padding: 30px;
+      box-sizing: border-box;
+      text-align: center;
+      box-shadow: 2px 0 6px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; 
+    }
+
+    aside img {
+      width: 90%;
+      border-radius: 1%;
+      margin-top: 15px;
+      margin-left: auto; 
+      margin-right: auto; 
+      display: block;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+
+    aside h1 {
+      margin-bottom: 10px;
+      color: #685454;
+      font-size: 1.8em;
+    }
+
+    aside p {
+      line-height: 1.5;
+    }
+
+    /* Правая часть — контент */
+    main {
+      width: 70%;
+      padding: 30px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    h2 {
+      border-bottom: 2px solid #ea8a8a;
+      padding-bottom: 5px;
+      color: #685454;
+    }
+
+    /* Новости */
+    article {
+      background: #fdf5f5;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    article h3 {
+      margin-top: 0;
+    }
+
+    section.desserts-section {
+      display: flex;
+      flex-direction: column;
+      gap: 40px; /* space between the two groups */
+    }
+
+    /* Common grid for desserts */
+    .desserts {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      column-gap: 10px;
+      row-gap: 10px;
+      justify-content: start;
+    }
+
+    /* Common style for dessert cards */
+    .dessert {
+      background: rgb(233, 210, 210);
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      text-align: center;
+      border: 1px solid #eee;
+      width: 250px; /* uniform width for all */
+    }
+
+    .dessert:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Image adjustments */
+    .dessert img {
+      width: 100%;
+      border-radius: 10px;
+      object-fit: cover; /* prevents stretching */
+    }
+
+    /* Optional color tweak to differentiate groups */
+    .desserts.no-images .dessert {
+      background: #fdf5f5;
+      column-gap: 10px;
+      row-gap: 10px;
+    }
+
+    .desserts.with-images .dessert {
+      background: #fdf5f5;
+      column-gap: 10px;
+      row-gap: 10px;
+    }
+
+    .reviews {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .review {
+      background: #fdf5f5;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .review img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .calculator {
+      margin-top: 50px;
+      padding: 15px;
+      background: #fdf5f5;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    .calculator h3 {
+      color: #685454;
+      margin-bottom: 10px;
+    }
+
+    .calculator input {
+      width: 100%;
+      padding: 8px;
+      font-size: 1em;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    .calculator p {
+      font-weight: bold;
+      color: #685454;
+    }
+
+    /* 📱 Адаптивная версия для мобильных */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      aside {
+        width: 100%;
+        box-shadow: none;
+        padding: 20px;
+      }
+
+      main {
+        width: 100%;
+        padding: 20px;
+      }
+
+      aside img {
+        width: 150px;
+        margin-bottom: 15px;
+      }
+
+      .desserts {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Левая часть: информация о кондитере -->
+  <aside>
+    <h1>{{ .Chef.Name }}</h1>
+    <p>{{ .Chef.Description }}</p>
+    <p><b>Контакты:</b> {{ .Chef.Contacts }}</p>
+    {{ if .Chef.PhotoURL }}
+      <img src="{{ .Chef.PhotoURL }}" alt="Кондитер">
+    {{ end }}
+
+    <div class="calculator">
+      <h2>Калькулятор торта</h2>
+      <p>Введите количество гостей:</p>
+      <input type="number" id="guests" placeholder="Например, 10" min="1" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;">
+      <button id="calc-btn" style="margin-top: 10px; padding: 8px 12px; background-color: #685454; color: #fae9e9; border: none; border-radius: 6px; cursor: pointer;">Рассчитать</button>
+      <p id="cake-weight" style="margin-top: 10px; font-weight: bold;"></p>
+    </div>
+  </aside>
+
+  <!-- Правая часть: новости и каталог -->
+  <main>
+    <section>
+      <h2>Новости</h2>
+      {{ range .News }}
+        <article>
+          <h3>{{ .Title }}</h3>
+          <p><em>{{ .Date }}</em></p>
+          <p>{{ .Content }}</p>
+        </article>
+      {{ end }}
+    </section>
+
+    <section class="desserts-section">
+      <h2>Каталог десертов</h2>
+
+      <!-- Десерты без картинок -->
+      <div class="desserts no-images">
+        {{ range .Desserts }}
+          {{ if not .ImageURL }}
+            <div class="dessert">
+              <h3>{{ .Name }}</h3>
+              <p>{{ .Description }}</p>
+              <p><b>Цена:</b> {{ .Price }}</p>
+            </div>
+          {{ end }}
+        {{ end }}
+      </div>
+
+      <!-- Десерты с картинками -->
+      <div class="desserts with-images">
+        {{ range .Desserts }}
+          {{ if .ImageURL }}
+            <div class="dessert">
+              <img src="{{ .ImageURL }}" alt="{{ .Name }}">
+              <h3>{{ .Name }}</h3>
+              <p>{{ .Description }}</p>
+              <p><b>Цена:</b> {{ .Price }}</p>
+            </div>
+          {{ end }}
+        {{ end }}
+      </div>
+    </section>
+
+
+    <section>
+      <h2>Отзывы</h2>
+      <div class="reviews">
+        {{ range .Reviews }}
+          <div class="review">
+            <img src="{{ .ImageURL }}" alt="Отзыв">
+            <p>{{ .Message }}</p>
+          </div>
+        {{ end }}
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const input = document.getElementById('guests');
+    const button = document.getElementById('calc-btn');
+    const result = document.getElementById('cake-weight');
+
+    function calculateWeight() {
+      const guests = Number(input.value);
+      if (!isNaN(guests) && guests > 0) {
+        const weight = guests * 200; // 1 гость = 200 грамм
+        result.textContent = `Рекомендуемый вес торта: ${weight} г`;
+      } else {
+        result.textContent = 'Введите корректное число гостей.';
+      }
+    }
+
+    // Обновление при нажатии Enter
+    input.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        calculateWeight();
+      }
+    });
+
+    // Обновление при клике на кнопку
+    button.addEventListener('click', calculateWeight);
+  </script>
+</body>
+</html>
